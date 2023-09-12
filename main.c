@@ -4,6 +4,8 @@
 
 //* returns 1 if the first 4 bytes of WAV file are "RIFF" and 0 if they are not
 int isRIFF (char* fileContents);
+//* returns 1 if bytes 8-11 are "WAVE" and 0 if they are not
+int isWAVE (char* fileContacts);
 
 //! to compile using clang, use following command: clang -o main main.c file_lib.c
 
