@@ -7,12 +7,11 @@ int isRIFF (char* fileContents);
 //* returns 1 if bytes 8-11 are "WAVE" and 0 if they are not
 int isWAVE (char* fileContacts);
 
-//! to compile using clang, use following command: clang -o main main.c file_lib.c
+//! to compile using clang, use following command: clang -o a *.c
 
-int main() { 
-    const char* testFile = "t1_be_back.wav"; // file path
-    size_t sizeOfFile = sizeof(testFile); // size of WAV file
-    char* fileContents = read_file(testFile, &sizeOfFile); // stores the WAV file contents
+int main(int argc, char** argv) { 
+    size_t sizeOfFile; // size of WAV file
+    char* fileContents = read_file(argv[1], &sizeOfFile); // stores the WAV file contents
 
     int RIFF = isRIFF(fileContents); // 1 if first 4 bytes are "RIFF", 0 if not
 
