@@ -1,25 +1,25 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 #include "file_lib.h"
 
-//* returns 1 if the first 4 bytes of WAV file are "RIFF" and 0 if they are not
+//* returns 0 if the first 4 bytes of WAV file are "RIFF" and 1 if they are not
 int isRIFF (char* fileContents);
+//* returns 0 if bytes 4-7 equal the sizeOfFile-8 and 2 if not
+int bits4to7 (char* fileContents, size_t size);
 
 //! to compile using clang, use following command: clang -o reversed *.c
 
 int main(int argc, char** argv) { 
     size_t sizeOfFile; // size of WAV file
     char* fileContents = read_file(argv[1], &sizeOfFile); // stores the WAV file contents
-    printf("actual file size: %d\n", sizeOfFile);
 
-    if (isRIFF(fileContents) == 1) {
+    if (isRIFF(fileContents) == 1 || bits4to7(fileContents, sizeOfFile) == 2) {
         printf("Unable to process file.\n");
         exit(1);
     }
 
-    // read bytes 4-7 and see if they equal the sizeOfFile - 8;
-    // ! you need to read the bytes backwards (7, 6, 5, then 4)
-    
+    printf("success");
 
     free (fileContents);
     return 0;
@@ -33,4 +33,21 @@ int isRIFF (char* fileContents) {
         }
     }
     return 0;
+}
+
+
+int bits4to7 (char* fileContents, size_t size) {
+    // ! you need to read the bytes backwards (7, 6, 5, then 4)
+    uint8_t hashSize[4];
+    int a = 0;
+    for (int i = 7; i > 3; i--) {
+        hashSize[a++] = fileContents[i];
+    }
+    // bit shifts bit 7 to left most, then bit 6, then bit 5, and bit 4 is the rightmost
+    int sizeComp = (hashSize[0] << 24) | (hashSize[1] << 16) | (hashSize[2] << 8) | hashSize[3];
+    // final check to see if bits 4-7 = sizeOfFile-8
+    if (sizeComp != size-8) {
+        return 2; // code for file sizes not matching
+    }
+    return 0; 
 }
