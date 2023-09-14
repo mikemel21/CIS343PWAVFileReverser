@@ -7,8 +7,10 @@
 int isRIFF (char* fileContents);
 //* returns 0 if bytes 4-7 equal the sizeOfFile-8 and 2 if not
 int bits4to7 (char* fileContents, size_t size);
-//* returns 0 if butes 8-11 = WAVE and 1 if not
+//* returns 0 if bytes 8-11 = WAVE and 1 if not
 int isWAVE (char* fileContents);
+//*returns 0 if file has two channels and 1 if it does not
+int has2Channels (char* fileContents);
 
 //! to compile using clang, use following command: clang -o reversed *.c
 
@@ -17,7 +19,8 @@ int main(int argc, char** argv) {
     char* fileContents = read_file(argv[1], &sizeOfFile); // stores the WAV file contents
 
     // requirement checking
-    if (isRIFF(fileContents) == 1 || bits4to7(fileContents, sizeOfFile) == 1 || isWAVE(fileContents) == 1) {
+    if (isRIFF(fileContents) == 1 || bits4to7(fileContents, sizeOfFile) == 1 || isWAVE(fileContents) == 1 || has2Channels(fileContents) == 1) {
+        
         printf("Unable to process file.\n");
         exit(1);
     }
@@ -57,6 +60,13 @@ int bits4to7 (char* fileContents, size_t size) {
 int isWAVE (char* fileContents) {
     char WAVE[4] = {fileContents[8], fileContents[9], fileContents[10], fileContents[11]};
     if (WAVE[0] != 'W' || WAVE[1] != 'A' || WAVE[2] != 'V' || WAVE[3] != 'E') {
+        return 1;
+    }
+    return 0;
+}
+
+int has2Channels (char* fileContents) {
+    if (fileContents[22] != 2) {
         return 1;
     }
     return 0;
