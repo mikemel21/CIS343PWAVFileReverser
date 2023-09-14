@@ -7,6 +7,8 @@
 int isRIFF (char* fileContents);
 //* returns 0 if bytes 4-7 equal the sizeOfFile-8 and 2 if not
 int bits4to7 (char* fileContents, size_t size);
+//* returns 0 if butes 8-11 = WAVE and 1 if not
+int isWAVE (char* fileContents);
 
 //! to compile using clang, use following command: clang -o reversed *.c
 
@@ -14,12 +16,13 @@ int main(int argc, char** argv) {
     size_t sizeOfFile; // size of WAV file
     char* fileContents = read_file(argv[1], &sizeOfFile); // stores the WAV file contents
 
-    if (isRIFF(fileContents) == 1 || bits4to7(fileContents, sizeOfFile) == 2) {
+    // requirement checking
+    if (isRIFF(fileContents) == 1 || bits4to7(fileContents, sizeOfFile) == 1 || isWAVE(fileContents) == 1) {
         printf("Unable to process file.\n");
         exit(1);
     }
 
-    printf("success");
+    printf("Success.");
 
     free (fileContents);
     return 0;
@@ -35,7 +38,6 @@ int isRIFF (char* fileContents) {
     return 0;
 }
 
-
 int bits4to7 (char* fileContents, size_t size) {
     // ! you need to read the bytes backwards (7, 6, 5, then 4)
     uint8_t hashSize[4];
@@ -47,7 +49,15 @@ int bits4to7 (char* fileContents, size_t size) {
     int sizeComp = (hashSize[0] << 24) | (hashSize[1] << 16) | (hashSize[2] << 8) | hashSize[3];
     // final check to see if bits 4-7 = sizeOfFile-8
     if (sizeComp != size-8) {
-        return 2; // code for file sizes not matching
+        return 1;
     }
     return 0; 
+}
+
+int isWAVE (char* fileContents) {
+    char WAVE[4] = {fileContents[8], fileContents[9], fileContents[10], fileContents[11]};
+    if (WAVE[0] != 'W' || WAVE[1] != 'A' || WAVE[2] != 'V' || WAVE[3] != 'E') {
+        return 1;
+    }
+    return 0;
 }
