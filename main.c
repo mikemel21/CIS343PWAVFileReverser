@@ -23,6 +23,7 @@ int main(int argc, char** argv) {
     // requirement checking
     if (isRIFF(fileContents) == 1 || bits4to7(fileContents, sizeOfFile) == 1 || isWAVE(fileContents) == 1 || has2Channels(fileContents) == 1 || formatType(fileContents) == 1) {
         printf("Unable to process file.\n");
+        // TODO: Make specific error messages for each requirement
         exit(1);
     }
 
