@@ -2,7 +2,7 @@
 #define		__H_WAV__
 #include <stdio.h>
 
-// WAV header struct
+// WAV header struct; holds a char that stores the header
 typedef struct wh {
     char header[44];
 } wave_header;
@@ -14,10 +14,10 @@ typedef struct wf {
     char* dataPointer;
 } wave_file;
 
-// takes in a file and creates a header struct
+// takes in a file (char *) and creates a header struct from the first 44 bytes of the file
 wave_header createHeader (char* fileContents);
 
-// loads wave file
+// takes a file path and creates a wave_file struct
 wave_file* loadWAV(const char* path);
 
 // creates a byte array of the file
@@ -39,6 +39,11 @@ int has2Channels (wave_file* wf);
 // returns 0 if file has format type 1 and 1 if it does not
 int formatType (wave_file* wf);
 
+// evaluates above functions and prints detailed error depending on which function fails
 void checkHeader(wave_file* wf);
+
+// gets the Sample Rate of file
+int getSampleRate (wave_file* wf);
+
 
 #endif

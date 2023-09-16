@@ -101,3 +101,8 @@ void checkHeader (wave_file* wf) {
         exit(1);
     }
 }
+
+int getSampleRate (wave_file* wf) {
+    uint16_t sampleRate = (wf->header.header[27] << 24) | (wf->header.header[26] << 16) | (wf->header.header[25] << 8) | wf->header.header[24];
+    return sampleRate;
+}
