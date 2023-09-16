@@ -55,6 +55,7 @@
         "sml": "cd $dir && sml $fileName"
     },
     "files.associations": {
-        "file_lib.h": "c"
+        "file_lib.h": "c",
+        "wav.h": "c"
     }
 }
