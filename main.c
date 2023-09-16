@@ -4,41 +4,14 @@
 #include "file_lib.h"
 #include "wav.h"
 
-//* returns 0 if the first 4 bytes of WAV file are "RIFF" and 1 if they are not
-int isRIFF (wave_file* wf);
-
-//* returns 0 if bytes 4-7 equal the sizeOfFile-8 and 2 if not
-int bits4to7 (wave_file* wf, size_t size);
-
-//* returns 0 if bytes 8-11 = WAVE and 1 if not
-int isWAVE (wave_file* wf);
-
-//* returns 0 if file has two channels and 1 if it does not
-int has2Channels (wave_file* wf);
-
-//* returns 0 if file has format type 1 and 1 if it does not
-int formatType (wave_file* wf);
-
 int main(int argc, char** argv) { 
     wave_file* waveFile = loadWAV(argv[1]);
     printf("Input File Name: %s\n", argv[1]);
+    // validates file can be reversed
+    checkHeader(waveFile);
 
 
-
-    // requirement checking
-    // if (isRIFF(fileContents) == 1 || bits4to7(fileContents, sizeOfFile) == 1 || isWAVE(fileContents) == 1 || has2Channels(fileContents) == 1 || formatType(fileContents) == 1) {
-    //     printf("Unable to process file.\n");
-    //     // TODO: Make specific error messages for each requirement
-    //     exit(1);
-    // }
-
-    // // file that will hold the reversed WAV
-    // char* reversedFile = malloc(sizeOfFile);
-
-
-    // printf("Success.");
-
-    // free (fileContents);
+    free (waveFile);
     return 0;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,4 +59,27 @@ int formatType (wave_file* wf) {
         return 1;
     }
     return 0;
+}
+
+void checkHeader (wave_file* wf) {
+    if (isRIFF(wf) == 1){
+        printf("\nBytes 0-3 RIFF not found\n");
+        exit(1);
+    }
+    if (bits4to7 (wf, wf->fileSize) == 1){
+        printf("\nBytes 4-7 do not contain the right file size\n");
+        exit(1);
+    }
+    if (isWAVE (wf) == 1){
+        printf("\nBytes 8-11 WAVE not found\n");
+        exit(1);
+    }
+    if (has2Channels (wf) == 1){
+        printf("\nBytes 22 Does not show 2 channles\n");
+        exit(1);
+    }
+    if (formatType (wf) == 1){
+        printf("\nBytes 20-21 is not a 16-bit interger value of 1\n");
+        exit(1);
+    }
 }
