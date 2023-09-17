@@ -57,6 +57,7 @@
     "files.associations": {
         "file_lib.h": "c",
         "wav.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "stdio.h": "c"
     }
 }

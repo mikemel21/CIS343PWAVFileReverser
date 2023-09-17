@@ -18,20 +18,24 @@ wave_file* loadWAV (const char* path) {
     size_t sizeOfFile;
     char* file = read_file(path, &sizeOfFile);
     wave_header headerBytes = createHeader(file);
-    wave_file* wave = malloc(sizeof(wave));
+    wave_file* wave = malloc(sizeof(*wave));
 
     wave->fileSize = sizeOfFile;
-    wave->dataPointer = file; 
+    wave->dataPointer = &file[44]; 
     
     wave->header = headerBytes;
 
     return wave;
 }
 
-//TODO: write the function that prepares a byte array for the reversed file and writes the new audion file to disk
-
-
-
+//TODO: write the function that prepares a byte array for the reversed file and writes the new audio file to disk
+int prepByteArray (wave_file wf, char* path) {
+    char* byteArray = malloc(wf.fileSize);
+    byteArray = wf.header.header;
+    strcat(byteArray+44, wf.dataPointer);
+    //byteArray = wf.dataPointer;
+    return write_file(path, byteArray, wf.fileSize);
+}
 
 int isRIFF (wave_file* wf) {
     if (wf->header.header[0] != 'R' && wf->header.header[1] != 'I' && wf->header.header[2] != 'F' && wf->header.header[3] != 'F') {

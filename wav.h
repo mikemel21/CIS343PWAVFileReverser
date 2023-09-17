@@ -21,7 +21,7 @@ wave_header createHeader (char* fileContents);
 wave_file* loadWAV(const char* path);
 
 // creates a byte array of the file
-int prepByteArray (struct wf);
+int prepByteArray (wave_file wf, char* path);
 
 //* Helper functions; These functions go through the checks to ensure the WAV file is one we can work with
 // returns 0 if the first 4 bytes of WAV file are "RIFF" and 1 if they are not
