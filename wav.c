@@ -34,12 +34,17 @@ wave_file* loadWAV (const char* path) {
 int prepByteArray (wave_file wf, char* path) {
     char* byteArray = malloc(wf.fileSize);
     // add the data Pointer to the byte array (after header)
-    byteArray = strcat(wf.header.header, wf.dataPointer);
+    memcpy(byteArray, wf.header.header, 44);
+    memcpy(byteArray + 44, wf.dataPointer, wf.fileSize-44);
+    //byteArray = wf.dataPointer;
+    //byteArray = strcat(wf.header.header, wf.dataPointer);
+    printf("%x\n", *byteArray);
+    printf("%x\n", *wf.dataPointer);
 
     //byteArray = wf.dataPointer;
 
     //! issue: only prints first 8 bytes of header
-    return write_file(path, byteArray, sizeof(byteArray));
+    return write_file(path, byteArray, wf.fileSize);
 }
 
 int isRIFF (wave_file* wf) {
