@@ -36,12 +36,9 @@ int prepByteArray (wave_file wf, char* path) {
     // add the data Pointer to the byte array (after header)
     memcpy(byteArray, wf.header.header, 44);
     memcpy(byteArray + 44, wf.dataPointer, wf.fileSize-44);
-    //byteArray = wf.dataPointer;
-    //byteArray = strcat(wf.header.header, wf.dataPointer);
+
     printf("%x\n", *byteArray);
     printf("%x\n", *wf.dataPointer);
-
-    //byteArray = wf.dataPointer;
 
     //! issue: only prints first 8 bytes of header
     return write_file(path, byteArray, wf.fileSize);
