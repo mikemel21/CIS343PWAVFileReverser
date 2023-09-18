@@ -14,7 +14,6 @@ int main(int argc, char** argv) {
     reversedFile->header = waveFile->header;
     reversedFile->dataPointer = waveFile->dataPointer;
 
-
     printf("%zu\n", reversedFile->fileSize);
     printf("%lu\n", sizeof(reversedFile->header.header));
 
