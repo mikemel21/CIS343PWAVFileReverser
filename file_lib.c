@@ -48,6 +48,7 @@ int write_file(const char* path, const char* byteArray, size_t byteArraySize) {
 
     // Write the byteArray to the file
     size_t bytesWritten = fwrite(byteArray, 1, byteArraySize, file);
+
     if (bytesWritten != byteArraySize) {
         perror("Error writing to file");
         fclose(file);

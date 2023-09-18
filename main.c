@@ -16,10 +16,10 @@ int main(int argc, char** argv) {
 
 
     printf("%zu\n", reversedFile->fileSize);
-    printf("%d\n", sizeof(reversedFile->header.header));
+    printf("%lu\n", sizeof(reversedFile->header.header));
 
     printf("Input File Name: %s\n", argv[1]);
-    printf("File Size: %d\n", waveFile->fileSize);
+    printf("File Size: %zu\n", waveFile->fileSize);
     printf("Sample Rate: %u\n", getSampleRate(waveFile));
     printf("# Channels: %d\n", waveFile->header.header[22]); // get # channels from byte 22
     printf("Output File Name: %s\n", "");

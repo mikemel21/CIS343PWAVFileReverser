@@ -21,7 +21,8 @@ wave_file* loadWAV (const char* path) {
     wave_file* wave = malloc(sizeof(*wave));
 
     wave->fileSize = sizeOfFile;
-    wave->dataPointer = &file[44]; 
+    // assign dataPointer to the 44th bit (1st bit after header)
+    wave->dataPointer = file+44; 
     
     wave->header = headerBytes;
 
@@ -31,9 +32,11 @@ wave_file* loadWAV (const char* path) {
 //TODO: write the function that prepares a byte array for the reversed file and writes the new audio file to disk
 int prepByteArray (wave_file wf, char* path) {
     char* byteArray = malloc(wf.fileSize);
-    byteArray = wf.header.header;
-    strcat(byteArray+44, wf.dataPointer);
+    //byteArray = wf.header.header;
+    // add the data Pointer to the byte array (after header)
+    byteArray = strcat(wf.header.header, wf.dataPointer);
     //byteArray = wf.dataPointer;
+
     return write_file(path, byteArray, wf.fileSize);
 }
 
