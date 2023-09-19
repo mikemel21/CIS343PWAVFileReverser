@@ -40,7 +40,6 @@ int prepByteArray (wave_file wf, char* path) {
     printf("%x\n", *byteArray);
     printf("%x\n", *wf.dataPointer);
 
-    //! issue: only prints first 8 bytes of header
     return write_file(path, byteArray, wf.fileSize);
 }
 

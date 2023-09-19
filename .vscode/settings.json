@@ -59,5 +59,7 @@
         "wav.h": "c",
         "string.h": "c",
         "stdio.h": "c"
-    }
+    },
+    "C_Cpp.default.intelliSenseMode": "",
+    "C_Cpp.default.compilerPath": "C:\\msys64\\mingw64\\bin\\clang.exe"
 }
