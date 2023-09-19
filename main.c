@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
         count += 4;
     }
 
-    // output results
+    // output
     printf("Input File Name: %s\n", argv[1]);
     printf("File Size: %zu\n", waveFile->fileSize);
     printf("Sample Rate: %u\n", getSampleRate(waveFile));
