@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     printf("File Size: %zu\n", waveFile->fileSize);
     printf("Sample Rate: %u\n", getSampleRate(waveFile));
     printf("# Channels: %d\n", waveFile->header.header[22]); // get # channels from byte 22
-    printf("Output File Name: %s\n", "");
+    printf("Output File Name: %s\n", argv[2]);
 
     int error = prepByteArray(reversedFile, argv[2]);
 

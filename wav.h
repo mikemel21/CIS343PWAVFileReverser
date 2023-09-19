@@ -10,7 +10,9 @@ typedef struct wh {
 //WAV file struct
 typedef struct wf {
     wave_header header;
+    // size of WAV file
     size_t fileSize;
+    // pointer to the data section of the WAV file
     char* dataPointer;
 } wave_file;
 

@@ -6,10 +6,8 @@
 
 wave_header createHeader (char* fileContents) {
     wave_header head;
-
-    for (int i = 0; i < 44; i++) {
-        head.header[i] = fileContents[i];
-    }
+    // copies the first 44 bites of the fileContents (header in the WAV File) to the header array
+    memcpy(head.header, fileContents, 44);
 
     return head;
 }
@@ -24,7 +22,6 @@ wave_file* loadWAV (const char* path) {
     wave->fileSize = sizeOfFile;
     // assign dataPointer to the 44th bit (1st bit after header)
     wave->dataPointer = file+44; 
-    
     wave->header = headerBytes;
 
     return wave;
@@ -36,9 +33,6 @@ int prepByteArray (wave_file wf, char* path) {
     // add the data Pointer to the byte array (after header)
     memcpy(byteArray, wf.header.header, 44);
     memcpy(byteArray + 44, wf.dataPointer, wf.fileSize-44);
-
-    printf("%x\n", *byteArray);
-    printf("%x\n", *wf.dataPointer);
 
     return write_file(path, byteArray, wf.fileSize);
 }
@@ -103,7 +97,7 @@ void checkHeader (wave_file* wf) {
         exit(1);
     }
     if (has2Channels (wf) == 1){
-        printf("\nBytes 22 Does not show 2 channles\n");
+        printf("\nBytes 22 Does not show 2 channels\n");
         exit(1);
     }
     if (formatType (wf) == 1){
